@@ -1,0 +1,25 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Shopping Summary</h1>
+        <h3>Total Quantity: {{ total_picks }}</h3>
+    </div>
+    <ul class="list-group mb-4">
+        {% for key, item in cart.items %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ item.name }} - ${{ item.price }} x 
+                <form action="{% url 'update_cart' key %}" method="POST" class="form-inline">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control mr-2">
+                    <button type="submit" class="btn btn-secondary">Update</button>
+                </form>
+                <a href="{% url 'remove_from_cart' key %}" class="btn btn-danger ml-2">Remove</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h3>Total: ${{ total|floatformat:2 }}</h3>
+    <a href="{% url 'home' %}" class="btn btn-primary">Continue Shopping</a>
+{% endblock %}
