@@ -40,17 +40,17 @@ def add_to_cart(request, product_id):
 
 def view_cart(request):
     cart = request.session.get('cart', {})
-    total = 0
+    totalprice = 0
     total_picks = 0
     for item_id, item_data in cart.items():
         quantity = int(item_data['quantity'])
         price = float(item_data['price'])
-        total += quantity * price
+        totalprice += quantity * price
         total_picks += quantity
     
     context = {
         'cart': cart,
-        'total': total,
+        'totalprice': totalprice,
         'total_picks' : total_picks
     }
     # print(cart)
